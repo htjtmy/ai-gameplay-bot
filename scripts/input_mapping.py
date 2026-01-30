@@ -284,10 +284,12 @@ class KeyboardController:
     
     def _handle_mouse_press(self, button: str):
         """
-        Handle mouse button press.
+        Handle mouse button press and scroll.
 
         Args:
-            button (str): Mouse button ('left', 'right', 'middle') or motion ('motion_x', 'motion_y')
+            button (str): Mouse button ('left', 'right', 'middle'), 
+                         motion ('motion_x', 'motion_y'),
+                         or scroll ('scroll_up', 'scroll_down')
         """
         try:
             from pynput.mouse import Controller, Button
@@ -302,6 +304,12 @@ class KeyboardController:
                 logger.debug("Mouse motion X detected")
             elif button == 'motion_y':
                 logger.debug("Mouse motion Y detected")
+            elif button == 'scroll_up':
+                logger.debug("Mouse scroll up")
+                mouse.scroll(0, 1)  # Scroll up
+            elif button == 'scroll_down':
+                logger.debug("Mouse scroll down")
+                mouse.scroll(0, -1)  # Scroll down
         except ImportError:
             logger.warning("pynput not available. Install pynput for mouse support.")
     
@@ -310,7 +318,8 @@ class KeyboardController:
         Handle mouse button release.
 
         Args:
-            button (str): Mouse button ('left', 'right', 'middle') or motion
+            button (str): Mouse button ('left', 'right', 'middle'), 
+                         motion, or scroll
         """
         try:
             from pynput.mouse import Controller, Button
@@ -321,6 +330,9 @@ class KeyboardController:
                 logger.debug("Mouse right button release")
             elif button == 'middle':
                 logger.debug("Mouse middle button release")
+            elif button in ('scroll_up', 'scroll_down'):
+                logger.debug("Mouse scroll action completed")
+                # Scroll actions don't need release
         except ImportError:
             logger.warning("pynput not available. Install pynput for mouse support.")
 

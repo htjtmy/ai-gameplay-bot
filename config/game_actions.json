@@ -232,6 +232,26 @@
       "keys": [["alt", "alt_l"]],
       "gamepad": "",
       "description": "呼出鼠标"
+    },
+    {
+      "id": 23,
+      "name": "SCROLL_UP",
+      "display_name_zh": "向上滚轮",
+      "display_name_en": "Scroll Up",
+      "category": "scroll",
+      "keys": [["mouse", "scroll_up"]],
+      "gamepad": "DPAD_UP",
+      "description": "鼠标向上滚动"
+    },
+    {
+      "id": 24,
+      "name": "SCROLL_DOWN",
+      "display_name_zh": "向下滚轮",
+      "display_name_en": "Scroll Down",
+      "category": "scroll",
+      "keys": [["mouse", "scroll_down"]],
+      "gamepad": "DPAD_DOWN",
+      "description": "鼠标向下滚动"
     }
   ],
   "categories": {
@@ -269,6 +289,11 @@
       "name_zh": "鼠标",
       "name_en": "Mouse",
       "description": "鼠标显示/隐藏相关操作"
+    },
+    "scroll": {
+      "name_zh": "滚轮",
+      "name_en": "Scroll",
+      "description": "鼠标滚轮操作"
     }
   }
 }
