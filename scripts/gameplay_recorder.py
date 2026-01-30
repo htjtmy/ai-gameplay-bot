@@ -236,6 +236,12 @@ class GameplayRecorder:
                 "y": y,
                 "frame": int(self.frame_count)
             })
+            
+            # Log first few mouse moves to confirm recording is working
+            mouse_move_count = sum(1 for inp in self.inputs if inp["type"] == "mouse_move")
+            if mouse_move_count <= 5:
+                logger.info(f"Mouse moved to ({x}, {y}) - recorded #{mouse_move_count}")
+                
         except Exception as e:
             logger.error(f"Error recording mouse move: {e}")
     
@@ -378,6 +384,12 @@ class GameplayRecorder:
         """Save recording metadata."""
         duration = time.time() - self.start_time
         
+        # Count input types for statistics
+        input_stats = {}
+        for inp in self.inputs:
+            input_type = inp["type"]
+            input_stats[input_type] = input_stats.get(input_type, 0) + 1
+        
         metadata = {
             "session_name": self.session_name,
             "category": self.category,
@@ -387,6 +399,7 @@ class GameplayRecorder:
             "video_fps": self.fps,
             "total_frames": self.frame_count,
             "total_inputs": len(self.inputs),
+            "input_statistics": input_stats,
             "screen_area": self.screen_area,
             "video_path": str(self.video_path),
             "inputs_path": str(self.inputs_path)
@@ -398,6 +411,7 @@ class GameplayRecorder:
         logger.info(f"Metadata saved to {self.metadata_path}")
         logger.info(f"Total duration: {duration:.1f} seconds")
         logger.info(f"Total frames: {self.frame_count}")
+        logger.info(f"Input statistics: {input_stats}")
 
 
 def main():
