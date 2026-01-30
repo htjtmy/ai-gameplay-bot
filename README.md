@@ -1,7 +1,7 @@
 <div align="center">
 
-# 🎮 AI Gameplay Bot
-### Enterprise-Grade Intelligent Gaming Automation Platform
+# 🎮 二重螺旋 AI 游戏机器人
+### 配置驱动的智能游戏自动化平台
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python">
@@ -11,26 +11,36 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/ruslanmv/ai-gameplay-bot?style=social" alt="Stars">
-  <img src="https://img.shields.io/github/forks/ruslanmv/ai-gameplay-bot?style=social" alt="Forks">
-  <img src="https://img.shields.io/github/issues/ruslanmv/ai-gameplay-bot" alt="Issues">
-  <img src="https://img.shields.io/github/last-commit/ruslanmv/ai-gameplay-bot" alt="Last Commit">
+  <img src="https://img.shields.io/github/stars/htjtmy/ai-gameplay-bot?style=social" alt="Stars">
+  <img src="https://img.shields.io/github/forks/htjtmy/ai-gameplay-bot?style=social" alt="Forks">
+  <img src="https://img.shields.io/github/issues/htjtmy/ai-gameplay-bot" alt="Issues">
+  <img src="https://img.shields.io/github/last-commit/htjtmy/ai-gameplay-bot" alt="Last Commit">
 </p>
 
-**Revolutionize gaming automation with state-of-the-art AI models**
-*Production-ready • Enterprise-grade • Scalable*
+**为《二重螺旋》游戏定制的AI自动化平台**
+*配置驱动 • 快速切换 • 中文支持*
 
-[🚀 Quick Start](#-quick-start) • [📚 Documentation](#-documentation) • [🎯 Features](#-features) • [💼 Enterprise](#-enterprise-solutions) • [🤝 Contributing](#-contributing)
+[🚀 快速开始](#-快速开始) • [📚 文档](#-文档) • [🎯 特性](#-特性) • [🔧 配置系统](#-配置系统)
 
 ---
 
 </div>
 
-## 🌟 Overview
+## 🌟 项目概述
 ![](assets/2025-12-30-01-54-05.png)
-**AI Gameplay Bot** is a cutting-edge, production-ready platform that leverages deep learning and transformer architectures to create intelligent gaming automation for MMORPGs. The bot learns directly from gameplay videos (YouTube, Twitch), analyzes player actions, and maps them to inputs - just like humans learn to play games.
 
-This is the next evolution of the [BOT-MMORPG-AI](https://github.com/ruslanmv/BOT-MMORPG-AI) project, now enhanced with Generative AI, Reinforcement Learning, and enterprise-grade deployment capabilities.
+本项目是为《二重螺旋》游戏定制的AI自动化平台，基于 [ruslanmv/ai-gameplay-bot](https://github.com/ruslanmv/ai-gameplay-bot) 进行深度改进。
+
+### ✨ 主要改进
+
+- **🎯 配置驱动架构**：通过JSON配置文件快速切换不同游戏的按键映射
+- **🇨🇳 完整中文支持**：支持中文文件名、路径和界面
+- **🎮 23个动作映射**：包括移动、战斗、技能、界面操作等
+- **⌨️ 灵活按键配置**：支持鼠标、键盘、组合键等多种输入
+- **🎥 游戏录制功能**：支持录制游戏画面和输入序列
+- **🛠️ 配置验证工具**：自动检查配置文件的正确性
+
+本项目在原有AI训练框架基础上，重构了动作映射系统，使其更易于定制和维护。
 
 ### 🎯 Why Choose AI Gameplay Bot?
 
@@ -65,29 +75,53 @@ The core idea mimics how humans learn to play games:
 
 ## ✨ Features
 
-### 🎯 Core Capabilities
+### 🎯 核心特性
 
-- **🤖 Dual AI Models**
-  - ⚡ **Neural Network**: Lightning-fast predictions (<100ms latency)
-  - 🧠 **Transformer**: Context-aware sequential decision making
-  - 🔄 **Hot-swappable**: Switch models without downtime
+<table>
+<tr>
+<td width="33%" align="center">
+  <h3>⚙️ 配置驱动</h3>
+  <p>通过JSON配置文件管理所有动作映射，无需修改代码即可切换游戏。</p>
+</td>
+<td width="33%" align="center">
+  <h3>🇨🇳 中文支持</h3>
+  <p>完整支持中文文件名、路径和界面，适配国产游戏。</p>
+</td>
+<td width="33%" align="center">
+  <h3>🎮 灵活映射</h3>
+  <p>23个可配置动作，支持键盘、鼠标、组合键等多种输入方式。</p>
+</td>
+</tr>
+</table>
 
-- **🖥️ Beautiful Web Dashboard**
-  - 📊 Real-time monitoring and control
-  - 🎛️ One-click service management
-  - 📈 Live performance metrics
-  - 🎨 Dark-themed, modern UI
+---
+
+## 📋 功能列表
+
+### 🎯 核心功能
+
+- **⚙️ 配置驱动架构**
+  - 📝 **JSON配置文件**：所有动作定义集中管理
+  - 🔄 **快速切换**：通过环境变量或参数切换不同游戏配置
+  - ✅ **配置验证**：内置验证工具检查配置正确性
+  - 📊 **按键查看**：可视化查看所有按键绑定
+
+- **🎮 游戏录制与训练**
+  - 🎥 **游戏录制**：录制游戏画面和玩家输入序列
+  - 📹 **中文文件名**：支持中文会话名称和分类
+  - ⌨️ **F8停止键**：自定义停止录制快捷键
+  - 🧠 **AI训练**：基于录制数据训练神经网络模型
+
+- **🤖 AI模型系统**
+  - ⚡ **神经网络**：快速响应（<100ms延迟）
+  - 🧠 **Transformer**：上下文感知的序列决策
+  - 🔄 **热切换**：无需停机即可切换模型
 
 - **🔌 RESTful API**
-  - 📡 High-performance Flask backend
-  - 🔐 Health check endpoints
-  - 📝 Comprehensive API documentation
-  - 🌐 CORS-enabled for web integration
-
-- **📊 Advanced Analytics**
-  - 🎯 Performance benchmarking
-  - 📈 Real-time latency monitoring
-  - 🧪 Concurrent load testing
+  - 📡 高性能Flask后端
+  - 🔐 健康检查端点
+  - 📝 完整的API文档
+  - 🌐 支持CORS跨域
   - 📉 Detailed performance reports
 
 ### 🛠️ Production Features
@@ -103,51 +137,121 @@ The core idea mimics how humans learn to play games:
 
 ---
 
-## 🚀 Quick Start
+## 🚀 快速开始
 
-### Prerequisites
+### 环境要求
 
 - Python 3.8+
-- 4GB RAM minimum (8GB recommended)
-- CUDA-capable GPU (optional, for training)
+- 4GB RAM 最低（推荐8GB）
+- CUDA GPU（可选，用于训练）
+- Windows/Linux/macOS
 
-### ⚡ One-Command Setup
+### ⚡ 安装步骤
 
 ```bash
-# Clone the repository
-git clone https://github.com/ruslanmv/ai-gameplay-bot.git
+# 克隆仓库
+git clone https://github.com/htjtmy/ai-gameplay-bot.git
 cd ai-gameplay-bot
 
-# Run automated setup
-chmod +x setup.sh
-./setup.sh
+# 创建conda环境（推荐）
+conda create -n Ai-Gameplay-Bot python=3.8
+conda activate Ai-Gameplay-Bot
+
+# 安装依赖
+pip install -r requirements.txt
 ```
 
-### 🎮 Launch Dashboard
+### 🎮 配置与使用
+
+#### 1. 查看按键配置
 
 ```bash
-# Start control backend
-make run-control
+# 查看当前游戏的按键配置
+python scripts/show_key_bindings.py
 
-# Open frontend/index.html in your browser
-# or serve it:
-cd frontend && python -m http.server 3000
+# 验证配置文件
+python scripts/validate_actions_config.py config/game_actions.json
 ```
 
-**That's it!** 🎉 Your AI Gameplay Bot is now running at `http://localhost:8000`
+#### 2. 录制游戏数据
+
+```bash
+# 启动游戏录制（指定游戏进程）
+python scripts/gameplay_recorder.py --process MuMuNxDevice.exe --session "测试会话" --category "训练"
+
+# 按F8停止录制
+```
+
+#### 3. 启动控制后端
+
+```bash
+# 使用make启动（需要先安装make）
+conda install -y -c conda-forge make
+make run-control
+
+# 或直接运行
+python deployment/control_backend.py
+```
+
+**完成！** 🎉 控制后端运行在 `http://localhost:8000`
 
 ---
-![](assets/2025-12-30-01-50-53.png)
-![](assets/2025-12-30-01-53-18.png)
-## 📚 Documentation
 
-### 📖 Complete Guides
+## 🔧 配置系统
 
-| Document | Description |
+本项目采用配置驱动架构，所有动作映射集中在 `config/game_actions.json`。
+
+### 查看配置
+
+```bash
+# 可视化查看按键配置
+python scripts/show_key_bindings.py
+```
+
+### 修改配置
+
+直接编辑 `config/game_actions.json`：
+
+```json
+{
+  "game_name": "二重螺旋",
+  "actions": [
+    {
+      "id": 0,
+      "name": "MOVE_FORWARD",
+      "display_name_zh": "前进",
+      "keys": ["w"],
+      "gamepad": "LS_UP"
+    }
+  ]
+}
+```
+
+### 切换游戏
+
+1. 复制配置文件：`cp config/game_actions.json config/game_actions_other.json`
+2. 修改新配置
+3. 使用环境变量切换：
+   ```bash
+   $env:GAME_ACTIONS_CONFIG = "config/game_actions_other.json"
+   python scripts/gameplay_recorder.py
+   ```
+
+详细说明见 [配置系统文档](CONFIG_DRIVEN_SYSTEM.md)
+
+---
+
+## 📚 文档
+
+### 📖 完整指南
+
+| 文档 | 说明 |
 |----------|-------------|
-| [**📘 Setup Guide**](docs/SETUP.md) | Complete installation and configuration guide |
-| [**📗 API Reference**](docs/API.md) | Full API documentation with examples |
-| [**📙 Data Format**](data/README.md) | Dataset specifications and formats |
+| [**📘 配置系统**](CONFIG_DRIVEN_SYSTEM.md) | 配置驱动架构完整说明 |
+| [**📗 游戏切换指南**](config/GAME_SWITCHING_GUIDE.md) | 如何快速切换不同游戏配置 |
+| [**📙 配置文档**](config/README.md) | JSON配置文件格式和最佳实践 |
+| [**📕 API文档**](docs/API.md) | REST API完整参考 |
+| [**📓 数据格式**](data/README.md) | 数据集格式说明 |
 
 ### 🎯 Quick References
 
@@ -414,37 +518,40 @@ git push origin feature/AmazingFeature
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
+
+基于 [ruslanmv/ai-gameplay-bot](https://github.com/ruslanmv/ai-gameplay-bot) 改进。
 
 ---
 
-## 🌐 Community & Support
+## 🌐 社区与支持
 
 <div align="center">
 
-### 💬 Get Help
+### 💬 获取帮助
 
-[![GitHub Discussions](https://img.shields.io/badge/GitHub-Discussions-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ruslanmv/ai-gameplay-bot/discussions)
-[![Issues](https://img.shields.io/badge/GitHub-Issues-red?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ruslanmv/ai-gameplay-bot/issues)
+[![GitHub Issues](https://img.shields.io/badge/GitHub-Issues-red?style=for-the-badge&logo=github&logoColor=white)](https://github.com/htjtmy/ai-gameplay-bot/issues)
+[![GitHub Discussions](https://img.shields.io/badge/GitHub-Discussions-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/htjtmy/ai-gameplay-bot/discussions)
 
-### 🚀 More Projects
+### 🙏 致谢
 
-**Explore more cutting-edge AI projects:**  
-👉 **[ruslanmv.com](https://ruslanmv.com)** 👈
+感谢 [Ruslan Magana Vsevolodovna](https://github.com/ruslanmv) 创建的原始项目。
 
-Built with ❤️ by [Ruslan Magana Vsevolodovna](https://github.com/ruslanmv)
+本项目针对《二重螺旋》游戏进行深度定制和改进。
 
 </div>
 
 ---
 
-## 📊 Stats
+## 📊 项目统计
 
 <div align="center">
 
-![GitHub repo size](https://img.shields.io/github/repo-size/ruslanmv/ai-gameplay-bot?style=flat-square)
-![GitHub code size](https://img.shields.io/github/languages/code-size/ruslanmv/ai-gameplay-bot?style=flat-square)
-![GitHub top language](https://img.shields.io/github/languages/top/ruslanmv/ai-gameplay-bot?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/htjtmy/ai-gameplay-bot?style=flat-square)
+![GitHub code size](https://img.shields.io/github/languages/code-size/htjtmy/ai-gameplay-bot?style=flat-square)
+![GitHub top language](https://img.shields.io/github/languages/top/htjtmy/ai-gameplay-bot?style=flat-square)
 
 </div>
 
@@ -452,10 +559,10 @@ Built with ❤️ by [Ruslan Magana Vsevolodovna](https://github.com/ruslanmv)
 
 <div align="center">
 
-### ⭐ Star this repository if you find it useful!
+### ⭐ 如果觉得有用，请给个星标！
 
-**Share the love:** If this project helped you, please give it a star ⭐ and share it with others!
+**分享爱心：** 如果这个项目帮助了你，请给它一个星标 ⭐ 并分享给其他人！
 
-<sub>Made with 🔥 for the AI and Gaming community</sub>
+<sub>为《二重螺旋》玩家社区打造 🎮</sub>
 
 </div>
