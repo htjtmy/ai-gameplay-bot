@@ -1,0 +1,274 @@
+{
+  "game_name": "二重螺旋",
+  "game_version": "1.0",
+  "description": "二重螺旋游戏动作配置",
+  "actions": [
+    {
+      "id": 0,
+      "name": "MOVE_FORWARD",
+      "display_name_zh": "前进",
+      "display_name_en": "Move Forward",
+      "category": "movement",
+      "keys": ["w"],
+      "gamepad": "LS_UP",
+      "description": "角色向前移动"
+    },
+    {
+      "id": 1,
+      "name": "MOVE_BACKWARD",
+      "display_name_zh": "后退",
+      "display_name_en": "Move Backward",
+      "category": "movement",
+      "keys": ["s"],
+      "gamepad": "LS_DOWN",
+      "description": "角色向后移动"
+    },
+    {
+      "id": 2,
+      "name": "TURN_LEFT",
+      "display_name_zh": "左转",
+      "display_name_en": "Turn Left",
+      "category": "movement",
+      "keys": ["a"],
+      "gamepad": "RS_LEFT",
+      "description": "角色向左转向"
+    },
+    {
+      "id": 3,
+      "name": "TURN_RIGHT",
+      "display_name_zh": "右转",
+      "display_name_en": "Turn Right",
+      "category": "movement",
+      "keys": ["d"],
+      "gamepad": "RS_RIGHT",
+      "description": "角色向右转向"
+    },
+    {
+      "id": 4,
+      "name": "MELEE_ATTACK",
+      "display_name_zh": "近战攻击",
+      "display_name_en": "Melee Attack",
+      "category": "combat",
+      "keys": [["mouse", "left"]],
+      "gamepad": "X",
+      "description": "近战普通攻击"
+    },
+    {
+      "id": 5,
+      "name": "RANGED_ATTACK",
+      "display_name_zh": "远程攻击",
+      "display_name_en": "Ranged Attack",
+      "category": "combat",
+      "keys": [["mouse", "right"]],
+      "gamepad": "RT",
+      "description": "远程瞄准攻击"
+    },
+    {
+      "id": 6,
+      "name": "LOCK_TARGET",
+      "display_name_zh": "锁定目标",
+      "display_name_en": "Lock Target",
+      "category": "combat",
+      "keys": [["mouse", "middle"]],
+      "gamepad": "RS_CLICK",
+      "description": "锁定/解锁目标"
+    },
+    {
+      "id": 7,
+      "name": "COMBAT_SKILL",
+      "display_name_zh": "战斗技能",
+      "display_name_en": "Combat Skill",
+      "category": "combat",
+      "keys": ["e"],
+      "gamepad": "LB+X",
+      "description": "释放战斗技能"
+    },
+    {
+      "id": 8,
+      "name": "ULTIMATE_SKILL",
+      "display_name_zh": "终极技能",
+      "display_name_en": "Ultimate Skill",
+      "category": "combat",
+      "keys": ["q"],
+      "gamepad": "LB+Y",
+      "description": "释放终极技能"
+    },
+    {
+      "id": 9,
+      "name": "RELOAD",
+      "display_name_zh": "装填",
+      "display_name_en": "Reload",
+      "category": "combat",
+      "keys": ["r"],
+      "gamepad": "LB+RT",
+      "description": "武器装填"
+    },
+    {
+      "id": 10,
+      "name": "JUMP",
+      "display_name_zh": "跳跃",
+      "display_name_en": "Jump",
+      "category": "movement_skill",
+      "keys": ["space"],
+      "gamepad": "A",
+      "description": "跳跃"
+    },
+    {
+      "id": 11,
+      "name": "SLIDE",
+      "display_name_zh": "滑铲",
+      "display_name_en": "Slide",
+      "category": "movement_skill",
+      "keys": [["control", "ctrl_l"]],
+      "gamepad": "RB",
+      "description": "滑铲动作"
+    },
+    {
+      "id": 12,
+      "name": "DODGE",
+      "display_name_zh": "闪避",
+      "display_name_en": "Dodge",
+      "category": "movement_skill",
+      "keys": [["shift", "shift_l"]],
+      "gamepad": "B",
+      "description": "闪避动作"
+    },
+    {
+      "id": 13,
+      "name": "HELIX_LEAP",
+      "display_name_zh": "螺旋飞跃",
+      "display_name_en": "Helix Leap",
+      "category": "movement_skill",
+      "keys": ["4"],
+      "gamepad": "LS_CLICK",
+      "description": "螺旋飞跃技能"
+    },
+    {
+      "id": 14,
+      "name": "INTERACT",
+      "display_name_zh": "互动",
+      "display_name_en": "Interact",
+      "category": "interaction",
+      "keys": ["f"],
+      "gamepad": "Y",
+      "description": "与物体或NPC互动"
+    },
+    {
+      "id": 15,
+      "name": "MAP",
+      "display_name_zh": "地图",
+      "display_name_en": "Map",
+      "category": "ui",
+      "keys": ["m"],
+      "gamepad": "VIEW",
+      "description": "打开地图界面"
+    },
+    {
+      "id": 16,
+      "name": "COMBAT",
+      "display_name_zh": "历练",
+      "display_name_en": "Combat Menu",
+      "category": "ui",
+      "keys": ["l"],
+      "gamepad": "DPAD_RIGHT+A",
+      "description": "打开历练菜单"
+    },
+    {
+      "id": 17,
+      "name": "ARMOURY",
+      "display_name_zh": "整备",
+      "display_name_en": "Armoury",
+      "category": "ui",
+      "keys": ["c"],
+      "gamepad": "DPAD_RIGHT+X",
+      "description": "打开整备界面"
+    },
+    {
+      "id": 18,
+      "name": "MENU",
+      "display_name_zh": "菜单",
+      "display_name_en": "Menu",
+      "category": "ui",
+      "keys": ["esc"],
+      "gamepad": "MENU",
+      "description": "打开主菜单"
+    },
+    {
+      "id": 19,
+      "name": "GENIEMON",
+      "display_name_zh": "魔灵支援",
+      "display_name_en": "Geniemon Support",
+      "category": "ui",
+      "keys": ["z"],
+      "gamepad": "LB+B",
+      "description": "召唤魔灵支援"
+    },
+    {
+      "id": 20,
+      "name": "LOOK_X",
+      "display_name_zh": "水平视角",
+      "display_name_en": "Look Horizontal",
+      "category": "camera",
+      "keys": [["mouse", "motion_x"]],
+      "gamepad": "RS_X",
+      "description": "水平移动视角"
+    },
+    {
+      "id": 21,
+      "name": "LOOK_Y",
+      "display_name_zh": "垂直视角",
+      "display_name_en": "Look Vertical",
+      "category": "camera",
+      "keys": [["mouse", "motion_y"]],
+      "gamepad": "RS_Y",
+      "description": "垂直移动视角"
+    },
+    {
+      "id": 22,
+      "name": "CALL_MOUSE",
+      "display_name_zh": "呼出鼠标",
+      "display_name_en": "Call Mouse",
+      "category": "mouse",
+      "keys": [["alt", "alt_l"]],
+      "gamepad": "",
+      "description": "呼出鼠标"
+    }
+  ],
+  "categories": {
+    "movement": {
+      "name_zh": "移动",
+      "name_en": "Movement",
+      "description": "角色基础移动操作"
+    },
+    "combat": {
+      "name_zh": "战斗",
+      "name_en": "Combat",
+      "description": "战斗相关操作"
+    },
+    "movement_skill": {
+      "name_zh": "移动技能",
+      "name_en": "Movement Skills",
+      "description": "特殊移动技能"
+    },
+    "interaction": {
+      "name_zh": "互动",
+      "name_en": "Interaction",
+      "description": "与环境互动"
+    },
+    "ui": {
+      "name_zh": "界面",
+      "name_en": "UI/Menu",
+      "description": "界面和菜单操作"
+    },
+    "camera": {
+      "name_zh": "视角",
+      "name_en": "Camera",
+      "description": "视角控制"
+    },
+    "mouse": {
+      "name_zh": "鼠标",
+      "name_en": "Mouse",
+      "description": "鼠标显示/隐藏相关操作"
+    }
+  }
+}
