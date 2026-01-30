@@ -129,10 +129,11 @@ class GameplayRecorder:
         self.session_dir = self.output_dir / safe_name
         self.session_dir.mkdir(exist_ok=True)
         
-        # Paths
-        self.video_path = self.session_dir / "gameplay.mp4"
-        self.inputs_path = self.session_dir / "inputs.jsonl"
-        self.metadata_path = self.session_dir / "metadata.json"
+        # Paths with timestamp to avoid overwriting previous recordings
+        recording_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.video_path = self.session_dir / f"gameplay_{recording_timestamp}.mp4"
+        self.inputs_path = self.session_dir / f"inputs_{recording_timestamp}.jsonl"
+        self.metadata_path = self.session_dir / f"metadata_{recording_timestamp}.json"
         
         # Video recording
         self.screen_area = screen_area or (0, 0, 1280, 720)
