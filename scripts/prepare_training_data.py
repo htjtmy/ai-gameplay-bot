@@ -39,6 +39,7 @@ def extract_frames_from_video(video_path, output_dir, frame_skip=1, max_frames=N
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    logger.info(f"帧输出目录: {output_dir.resolve()}")
     
     cap = cv2.VideoCapture(str(video_path))
     
@@ -65,8 +66,13 @@ def extract_frames_from_video(video_path, output_dir, frame_skip=1, max_frames=N
         # 跳帧
         if frame_count % frame_skip == 0:
             frame_path = output_dir / f"frame_{frame_count:06d}.jpg"
+            # OpenCV不能处理中文路径，使用np.tofile代替
             # 压缩质量设置为85以节省空间
-            cv2.imwrite(str(frame_path), frame, [cv2.IMWRITE_JPEG_QUALITY, 85])
+            success, encoded_image = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 85])
+            if success:
+                encoded_image.tofile(str(frame_path))
+            elif saved_count < 3:
+                logger.warning(f"保存帧失败: {frame_path}")
             saved_count += 1
             
             if max_frames and saved_count >= max_frames:
@@ -99,12 +105,14 @@ def match_frames_with_annotations(frames_dir, annotations_path, frame_skip=1):
     
     # 读取标注
     annotations = pd.read_csv(annotations_path)
+    logger.debug(f"读取标注文件，列名: {annotations.columns.tolist()}")
+    logger.debug(f"标注文件形状: {annotations.shape}")
     
     # 确保列名正确
     if 'action_id' not in annotations.columns:
         logger.error(f"标注文件缺少 'action_id' 列: {annotations_path}")
         logger.error(f"可用列: {annotations.columns.tolist()}")
-        return pd.DataFrame()
+        raise KeyError('action_id')
     
     # 构建数据集
     dataset = []
@@ -135,7 +143,7 @@ def match_frames_with_annotations(frames_dir, annotations_path, frame_skip=1):
             })
     
     result_df = pd.DataFrame(dataset)
-    logger.info(f"匹配了 {len(result_df)} 个帧，动作分布: {result_df['action_id'].value_counts().head().to_dict()}")
+    logger.info(f"匹配了 {len(result_df)} 个帧，动作分布: {result_df['action_id'].value_counts().head().to_dict() if len(result_df) > 0 else {}}")
     return result_df
 
 
@@ -205,12 +213,22 @@ def process_recording(recording_dir, output_base_dir, frame_skip=2, max_frames_p
             continue
         
         # 配对标注
+        logger.info(f"使用标注文件: {annotations_path}")
         logger.info("配对标注...")
-        dataset = match_frames_with_annotations(
-            frames_output_dir,
-            annotations_path,
-            frame_skip=frame_skip
-        )
+        
+        try:
+            dataset = match_frames_with_annotations(
+                frames_output_dir,
+                annotations_path,
+                frame_skip=frame_skip
+            )
+        except KeyError as e:
+            logger.error(f"标注文件格式错误，缺少必需列: {e}")
+            logger.error(f"请检查标注文件: {annotations_path}")
+            continue
+        except Exception as e:
+            logger.error(f"处理标注时出错: {e}")
+            continue
         
         if len(dataset) == 0:
             logger.warning("未能匹配任何帧，跳过此视频")
@@ -311,7 +329,9 @@ def main():
                 )
                 total_processed += processed
             except Exception as e:
+                import traceback
                 logger.error(f"处理 {directory} 时出错: {e}")
+                logger.error(f"详细错误:\n{traceback.format_exc()}")
         
         logger.info(f"\n{'='*60}")
         logger.info(f"总共处理了 {total_processed} 个视频")
