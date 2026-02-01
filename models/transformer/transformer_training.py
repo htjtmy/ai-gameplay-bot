@@ -216,17 +216,30 @@ def main():
     """
     Main training script for Transformer model.
     """
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Train Transformer model')
+    parser.add_argument('--dataset', default='data/processed/transformer_dataset.csv', help='Path to dataset CSV')
+    parser.add_argument('--epochs', type=int, default=30, help='Number of epochs')
+    parser.add_argument('--batch-size', type=int, default=16, help='Batch size')
+    parser.add_argument('--lr', type=float, default=0.0001, help='Learning rate')
+    parser.add_argument('--sequence-length', type=int, default=10, help='Sequence length')
+    parser.add_argument('--num-classes', type=int, default=25, help='Number of action classes')
+    parser.add_argument('--num-heads', type=int, default=4, help='Number of attention heads')
+    parser.add_argument('--num-layers', type=int, default=3, help='Number of transformer layers')
+    parser.add_argument('--hidden-dim', type=int, default=256, help='Hidden dimension')
+    args = parser.parse_args()
+    
     # Configuration
-    DATASET_PATH = "data/processed/transformer_dataset.csv"
-    BATCH_SIZE = 16
-    NUM_EPOCHS = 30
-    LEARNING_RATE = 0.0001
-    SEQUENCE_LENGTH = 10
-    INPUT_DIM = 128
-    NUM_CLASSES = 10
-    NUM_HEADS = 4
-    NUM_LAYERS = 3
-    HIDDEN_DIM = 256
+    DATASET_PATH = args.dataset
+    BATCH_SIZE = args.batch_size
+    NUM_EPOCHS = args.epochs
+    LEARNING_RATE = args.lr
+    SEQUENCE_LENGTH = args.sequence_length
+    NUM_CLASSES = args.num_classes
+    NUM_HEADS = args.num_heads
+    NUM_LAYERS = args.num_layers
+    HIDDEN_DIM = args.hidden_dim
     VAL_SPLIT = 0.2
 
     # Set device
@@ -236,6 +249,10 @@ def main():
     # Load dataset
     print(f"Loading dataset from {DATASET_PATH}...")
     full_dataset = SequenceGameplayDataset(DATASET_PATH, sequence_length=SEQUENCE_LENGTH)
+    
+    # Get input dimension from dataset
+    INPUT_DIM = full_dataset.features.shape[1]
+    print(f"Input dimension: {INPUT_DIM}")
 
     # Split into train and validation
     val_size = int(len(full_dataset) * VAL_SPLIT)
