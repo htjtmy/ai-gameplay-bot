@@ -270,12 +270,11 @@ def main():
 
     # Initialize model
     model = GameplayTransformer(
-        input_dim=INPUT_DIM,
-        num_classes=NUM_CLASSES,
+        input_size=INPUT_DIM,
+        output_size=NUM_CLASSES,
         num_heads=NUM_HEADS,
         num_layers=NUM_LAYERS,
-        hidden_dim=HIDDEN_DIM,
-        sequence_length=SEQUENCE_LENGTH
+        hidden_size=HIDDEN_DIM
     )
 
     # Initialize trainer
