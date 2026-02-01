@@ -104,7 +104,7 @@ def main():
     steps.append({
         'name': '数据增强',
         'command': (
-            'python scripts/augment_minority_classes.py '
+            'python scripts/augment_features.py '
             '--input "data/processed/transformer_dataset.csv" '
             '--output "data/processed/transformer_dataset_augmented.csv" '
             '--target-actions 4 5 '
