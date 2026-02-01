@@ -62,13 +62,19 @@ class TransformerTrainer:
         device (str): Device to train on ('cuda' or 'cpu')
     """
 
-    def __init__(self, model, train_loader, val_loader=None, learning_rate=0.0001, device='cpu'):
+    def __init__(self, model, train_loader, val_loader=None, learning_rate=0.0001, device='cpu', class_weights=None):
         self.model = model.to(device)
         self.train_loader = train_loader
         self.val_loader = val_loader
         self.device = device
 
-        self.criterion = nn.CrossEntropyLoss()
+        # 使用类别权重（如果提供）
+        if class_weights is not None:
+            self.criterion = nn.CrossEntropyLoss(weight=class_weights.to(device))
+            print(f"使用类别权重: {class_weights.cpu().numpy()[:5]}...")
+        else:
+            self.criterion = nn.CrossEntropyLoss()
+        
         self.optimizer = optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=0.01)
         self.scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(
             self.optimizer, T_0=10, T_mult=2
@@ -147,7 +153,8 @@ class TransformerTrainer:
 
         return avg_loss, accuracy
 
-    def train(self, num_epochs, save_dir="models/transformer", model_name="transformer_model.pth"):
+    def train(self, num_epochs, save_dir="models/transformer", model_name="transformer_model.pth", 
+              early_stopping_patience=10):
         """
         Train the model for multiple epochs.
 
@@ -155,16 +162,20 @@ class TransformerTrainer:
             num_epochs (int): Number of training epochs
             save_dir (str): Directory to save the best model
             model_name (str): Name of the saved model file
+            early_stopping_patience (int): Patience for early stopping (0 to disable)
 
         Returns:
             dict: Training history
         """
         os.makedirs(save_dir, exist_ok=True)
         best_val_loss = float('inf')
+        patience_counter = 0
 
         print(f"\nStarting training for {num_epochs} epochs...")
         print(f"Device: {self.device}")
         print(f"Model parameters: {sum(p.numel() for p in self.model.parameters())}")
+        if early_stopping_patience > 0:
+            print(f"Early stopping patience: {early_stopping_patience}")
 
         for epoch in range(num_epochs):
             print(f"\nEpoch {epoch + 1}/{num_epochs}")
@@ -187,12 +198,22 @@ class TransformerTrainer:
                 # Learning rate scheduling
                 self.scheduler.step()
 
-                # Save best model
+                # Save best model and early stopping check
                 if val_loss < best_val_loss:
                     best_val_loss = val_loss
+                    patience_counter = 0  # Reset patience
                     model_path = os.path.join(save_dir, model_name)
                     torch.save(self.model.state_dict(), model_path)
-                    print(f"Model saved to {model_path}")
+                    print(f"✓ Model saved to {model_path} (best val_loss: {val_loss:.4f})")
+                else:
+                    patience_counter += 1
+                    if early_stopping_patience > 0:
+                        print(f"No improvement ({patience_counter}/{early_stopping_patience})")
+                
+                # Early stopping
+                if early_stopping_patience > 0 and patience_counter >= early_stopping_patience:
+                    print(f"\n早停触发！验证损失在 {early_stopping_patience} 个epoch内没有改善。")
+                    break
 
         # Save training history
         history = {
@@ -228,6 +249,8 @@ def main():
     parser.add_argument('--num-heads', type=int, default=4, help='Number of attention heads')
     parser.add_argument('--num-layers', type=int, default=3, help='Number of transformer layers')
     parser.add_argument('--hidden-dim', type=int, default=256, help='Hidden dimension')
+    parser.add_argument('--use-class-weights', action='store_true', help='Use class weights to balance loss')
+    parser.add_argument('--early-stopping', type=int, default=10, help='Early stopping patience (0 to disable)')
     args = parser.parse_args()
     
     # Configuration
@@ -268,6 +291,27 @@ def main():
     print(f"Training samples: {train_size}")
     print(f"Validation samples: {val_size}")
 
+    # Calculate class weights if requested
+    class_weights = None
+    if args.use_class_weights:
+        print("\n计算类别权重...")
+        # Count samples per class
+        full_data = pd.read_csv(DATASET_PATH)
+        class_counts = full_data['action'].value_counts().sort_index()
+        print("\n类别分布:")
+        for action_id, count in class_counts.items():
+            print(f"  动作 {action_id}: {count} 个样本 ({count/len(full_data)*100:.1f}%)")
+        
+        # Calculate inverse frequency weights
+        weights = torch.zeros(NUM_CLASSES)
+        for action_id, count in class_counts.items():
+            weights[action_id] = 1.0 / count
+        
+        # Normalize weights
+        weights = weights / weights.sum() * NUM_CLASSES
+        class_weights = weights
+        print(f"\n权重前5项: {weights[:5].numpy()}")
+
     # Initialize model
     model = GameplayTransformer(
         input_size=INPUT_DIM,
@@ -283,11 +327,15 @@ def main():
         train_loader=train_loader,
         val_loader=val_loader,
         learning_rate=LEARNING_RATE,
-        device=device
+        device=device,
+        class_weights=class_weights
     )
 
     # Train model
-    history = trainer.train(num_epochs=NUM_EPOCHS)
+    history = trainer.train(
+        num_epochs=NUM_EPOCHS,
+        early_stopping_patience=args.early_stopping
+    )
 
     print("\nTraining Summary:")
     print(f"Best validation loss: {min(history['val_losses']):.4f}")
