@@ -95,9 +95,16 @@ def match_frames_with_annotations(frames_dir, annotations_path, frame_skip=1):
         DataFrame: frame_path, action_id
     """
     frames_dir = Path(frames_dir)
+    cwd = Path.cwd()
     
     # 读取标注
     annotations = pd.read_csv(annotations_path)
+    
+    # 确保列名正确
+    if 'action_id' not in annotations.columns:
+        logger.error(f"标注文件缺少 'action_id' 列: {annotations_path}")
+        logger.error(f"可用列: {annotations.columns.tolist()}")
+        return pd.DataFrame()
     
     # 构建数据集
     dataset = []
@@ -112,14 +119,24 @@ def match_frames_with_annotations(frames_dir, annotations_path, frame_skip=1):
         frame_path = frames_dir / f"frame_{frame_num:06d}.jpg"
         
         if frame_path.exists():
+            # 确保使用绝对路径再转换为相对路径
+            frame_path_abs = frame_path.resolve()
+            try:
+                relative_path = frame_path_abs.relative_to(cwd)
+            except ValueError:
+                # 如果不在当前目录下，使用绝对路径
+                relative_path = frame_path_abs
+            
             dataset.append({
-                'frame_path': str(frame_path.relative_to(Path.cwd())),
+                'frame_path': str(relative_path).replace('\\', '/'),  # 统一使用正斜杠
                 'action_id': int(row['action_id']),
                 'timestamp_ms': int(row['timestamp_ms']),
                 'frame': int(frame_num)
             })
     
-    return pd.DataFrame(dataset)
+    result_df = pd.DataFrame(dataset)
+    logger.info(f"匹配了 {len(result_df)} 个帧，动作分布: {result_df['action_id'].value_counts().head().to_dict()}")
+    return result_df
 
 
 def process_recording(recording_dir, output_base_dir, frame_skip=2, max_frames_per_video=None):
@@ -168,10 +185,12 @@ def process_recording(recording_dir, output_base_dir, frame_skip=2, max_frames_p
             continue
         
         logger.info(f"\n{'='*60}")
-        logger.info(f"处理: {video_path.relative_to(Path.cwd())}")
+        logger.info(f"处理: {video_path}")
         
-        # 创建输出目录
-        relative_path = recording_dir.relative_to(Path("data/raw/gameplay_videos"))
+        # 创建输出目录（使用绝对路径）
+        base_gameplay_dir = Path("data/raw/gameplay_videos").resolve()
+        recording_dir_abs = recording_dir.resolve()
+        relative_path = recording_dir_abs.relative_to(base_gameplay_dir)
         frames_output_dir = output_base_dir / "frames" / relative_path / timestamp
         
         # 提取帧
@@ -193,11 +212,15 @@ def process_recording(recording_dir, output_base_dir, frame_skip=2, max_frames_p
             frame_skip=frame_skip
         )
         
+        if len(dataset) == 0:
+            logger.warning("未能匹配任何帧，跳过此视频")
+            continue
+        
         logger.info(f"生成了 {len(dataset)} 条训练样本")
         
         # 统计动作分布
         action_counts = dataset['action_id'].value_counts().sort_index()
-        logger.info(f"动作分布: {dict(action_counts.head(10))}")
+        logger.info(f"动作分布（前10）: {dict(list(action_counts.head(10).items()))}")
         
         all_datasets.append(dataset)
         processed += 1
@@ -206,9 +229,12 @@ def process_recording(recording_dir, output_base_dir, frame_skip=2, max_frames_p
     if all_datasets:
         combined_dataset = pd.concat(all_datasets, ignore_index=True)
         
-        # 保存合并的数据集
-        session_name = recording_dir.relative_to(Path("data/raw/gameplay_videos"))
-        output_csv = output_base_dir / "datasets" / f"{str(session_name).replace(chr(92), '_')}_dataset.csv"
+        # 保存合并的数据集（使用绝对路径）
+        base_gameplay_dir = Path("data/raw/gameplay_videos").resolve()
+        recording_dir_abs = recording_dir.resolve()
+        relative_session_path = recording_dir_abs.relative_to(base_gameplay_dir)
+        session_name = str(relative_session_path).replace(chr(92), '_').replace('/', '_')
+        output_csv = output_base_dir / "datasets" / f"{session_name}_dataset.csv"
         output_csv.parent.mkdir(parents=True, exist_ok=True)
         
         combined_dataset.to_csv(output_csv, index=False, encoding='utf-8')
